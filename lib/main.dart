@@ -1,5 +1,6 @@
 import 'package:a1/models/transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,18 +25,65 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Card(
-            child: Text('Chart'),
-          ),
+          title: Text('Expenses'),
         ),
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Card(
-              child: Text('Tx1'),
+              child: Text('Chart'),
             ),
-            Card(
-              child: Text('Tx2'),
-            ),
+            Column(
+              children: transactions.map((tx) {
+                return Card(
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 15,
+                        ),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            //color: Colors.blue,
+                            border: Border.all(
+                              //color: Colors.red,
+                              width: 1,
+                            ),
+                            shape: BoxShape.rectangle),
+                        child: Text(
+                          tx.amount.toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(bottom: 10),
+                            child: Text(
+                              tx.title,
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            DateFormat.('d-MM-yyyy H:m:s').format(tx.date),
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              }).toList(),
+            )
           ],
         ),
       ),
