@@ -28,11 +28,36 @@ class MyApp extends StatelessWidget {
           title: Text('Expenses'),
         ),
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //mainAxisAlignment: MainAxisAlignment.spaceAround,
           //crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Card(
               child: Text('Chart'),
+            ),
+            Card(
+              elevation: 3,
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Title',
+                      ),
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Amount',
+                      ),
+                    ),
+                    FlatButton(
+                      onPressed: () {},
+                      child: Text('Add transaction'),
+                    )
+                  ],
+                ),
+              ),
             ),
             Column(
               children: transactions.map((tx) {
@@ -72,7 +97,7 @@ class MyApp extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            DateFormat.('d-MM-yyyy H:m:s').format(tx.date),
+                            DateFormat('d-MM-yyyy H:m:s').format(tx.date),
                             style: TextStyle(
                               color: Colors.grey,
                             ),
