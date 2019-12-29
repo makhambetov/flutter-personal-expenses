@@ -6,7 +6,6 @@ import './models/transaction.dart';
 
 void main() => runApp(MyApp());
 
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -55,7 +54,11 @@ class _MyHomePageState extends State<MyHomePage> {
     showModalBottomSheet(
         context: ctx,
         builder: (_) {
-          return NewTransaction(_addTx);
+          return GestureDetector(
+            child: NewTransaction(_addTx),
+            onTap: () {},
+            behavior: HitTestBehavior.opaque,
+          );
         });
   }
 
