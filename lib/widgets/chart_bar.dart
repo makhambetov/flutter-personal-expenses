@@ -11,7 +11,8 @@ class ChartBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text(weekDay),
+        Text(amount),
+        SizedBox(height: 5),
         Container(
           height: 60,
           width: 10,
@@ -36,8 +37,8 @@ class ChartBar extends StatelessWidget {
             ],
           ),
         ),
-        Text(amount),
-        //Text(percentage.toString())
+        SizedBox(height: 5),
+        Text(weekDay),
       ],
     );
   }
