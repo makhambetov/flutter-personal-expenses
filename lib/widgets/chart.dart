@@ -39,16 +39,20 @@ class Chart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: EdgeInsets.all(10),
       elevation: 6,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: _groupedTransactionValues.map((tx) {
-            return ChartBar(
-              (tx['amount'] as double).toString(),
-              tx['day'],
-              tx['amount'] == 0.0 ? 0.0 : (tx['amount'] as double)/totalAmount,
+            return Flexible(
+              fit: FlexFit.tight,
+              child: ChartBar(
+                (tx['amount'] as double).toString(),
+                tx['day'],
+                tx['amount'] == 0.0 ? 0.0 : (tx['amount'] as double)/totalAmount,
+              ),
             );
           }).toList(),
         ),
