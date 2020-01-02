@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import './widgets/new_transactions.dart';
 import './widgets/transaction_list.dart';
+import './widgets/chart.dart';
 import './models/transaction.dart';
 
 void main() => runApp(MyApp());
@@ -31,16 +32,34 @@ class _MyHomePageState extends State<MyHomePage> {
     Transaction(
       id: 'tx-1',
       title: 'iPhone 11',
-      amount: 500000,
+      amount: 100,
+      date: DateTime.now().subtract(Duration(days: 1)),
+    ),
+    Transaction(
+      id: 'tx-1',
+      title: 'iPhone 11',
+      amount: 500,
       date: DateTime.now(),
     ),
     Transaction(
       id: 'tx-2',
       title: 'Nike',
-      amount: 40000,
+      amount: 400,
       date: DateTime.now(),
     ),
   ];
+
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(
+            days: 7,
+          ),
+        ),
+      );
+    }).toList();
+  }
 
   void _addTx(String txTitle, double txAmount) {
     Transaction newTx = Transaction(
@@ -85,14 +104,38 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Card(
-              child: Text('Chart'),
-            ),
-            TransactionList(_userTransactions)
-          ],
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              Chart(_recentTransactions),
+              _userTransactions.isNotEmpty
+                  ? TransactionList(_userTransactions)
+                  : emptyTx()
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  Container emptyTx() {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Text(
+            'No transactions',
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          Image.asset(
+            'assets/images/no_txs.png',
+            fit: BoxFit.cover,
+          )
+        ],
       ),
     );
   }
