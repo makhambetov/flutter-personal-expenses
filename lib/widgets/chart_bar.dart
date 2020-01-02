@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ChartBar extends StatelessWidget {
-  String amount;
-  String weekDay;
-  double percentage;
+  final String amount;
+  final String weekDay;
+  final double percentage;
 
   ChartBar(this.amount, this.weekDay, this.percentage);
 
