@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter App',
       theme: ThemeData(
         fontFamily: 'Quicksand',
@@ -36,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
       date: DateTime.now().subtract(Duration(days: 1)),
     ),
     Transaction(
-      id: 'tx-1',
+      id: 'tx-3',
       title: 'iPhone 11',
       amount: 500,
       date: DateTime.now(),
@@ -71,6 +72,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       _userTransactions.add(newTx);
+    });
+  }
+
+  void _removeTx(int idx) {
+    setState(() {
+      _userTransactions.removeAt(idx);
     });
   }
 
@@ -109,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               Chart(_recentTransactions),
               _userTransactions.isNotEmpty
-                  ? TransactionList(_userTransactions)
+                  ? TransactionList(_userTransactions, _removeTx)
                   : emptyTx()
             ],
           ),
