@@ -17,6 +17,11 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Quicksand',
         primarySwatch: Colors.purple,
         accentColor: Colors.amber,
+        textTheme: TextTheme(
+          button: TextStyle(
+              color: Colors.white
+          ),
+        ),
       ),
       home: MyHomePage(),
     );
