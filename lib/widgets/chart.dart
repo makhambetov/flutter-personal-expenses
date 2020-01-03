@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 
 import '../models/transaction.dart';
-import 'chart_bar.dart';
+import './chart_bar.dart';
 
 class Chart extends StatelessWidget {
   final List<Transaction> _recentTransactions;
@@ -24,7 +24,7 @@ class Chart extends StatelessWidget {
       }
 
       return {
-        'day': DateFormat.E().format(weekDay),
+        'day': intl.DateFormat.E().format(weekDay),
         'amount': weekDayTotalSum,
       };
     });
@@ -45,6 +45,7 @@ class Chart extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
+          textDirection: TextDirection.rtl,
           children: _groupedTransactionValues.map((tx) {
             return Flexible(
               fit: FlexFit.tight,
