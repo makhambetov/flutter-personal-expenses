@@ -8,6 +8,29 @@ class TransactionList extends StatelessWidget {
 
   TransactionList(this.transactions, this._removeHandler);
 
+  void _showAlertModal(String id, context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Center(child: Text('Are you sure?')),
+        elevation: 5,
+        actions: <Widget>[
+          FlatButton(
+            child: Text('YES'),
+            onPressed: () {
+              _removeHandler(id);
+              Navigator.pop(context);
+            },
+          ),
+          FlatButton(
+            child: Text('CANCELL'),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,7 +62,8 @@ class TransactionList extends StatelessWidget {
                 ),
                 trailing: IconButton(
                   icon: Icon(Icons.delete),
-                  onPressed: () => _removeHandler(idx),
+                  onPressed: () =>
+                      _showAlertModal(transactions[idx].id, context),
                   color: Theme.of(context).errorColor,
                 )),
           );
