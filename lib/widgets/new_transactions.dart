@@ -33,10 +33,10 @@ class _NewTransactionState extends State<NewTransaction> {
     String title = _titleController.text;
     String amount = _amountController.text;
 
-    if (amount.isNotEmpty && title.isNotEmpty && double.parse(amount) > 0) {
+    if (amount.isNotEmpty && title.isNotEmpty && double.parse(amount) > 0 && _pickedDate != null) {
       double amountDouble = double.parse(amount);
 
-      widget.submitHandler(title, amountDouble);
+      widget.submitHandler(title, amountDouble, _pickedDate);
     }
 
     Navigator.of(context).pop();

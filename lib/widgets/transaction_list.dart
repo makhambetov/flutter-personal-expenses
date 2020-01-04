@@ -11,7 +11,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 380,
+      height: 400,
       child: ListView.builder(
         itemCount: transactions.length,
         itemBuilder: (ctx, idx) {
@@ -40,6 +40,7 @@ class TransactionList extends StatelessWidget {
                 trailing: IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () => _removeHandler(idx),
+                  color: Theme.of(context).errorColor,
                 )),
           );
         },
