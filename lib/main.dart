@@ -18,9 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.purple,
         accentColor: Colors.amber,
         textTheme: TextTheme(
-          button: TextStyle(
-              color: Colors.white
-          ),
+          button: TextStyle(color: Colors.white),
         ),
       ),
       home: MyHomePage(),
@@ -100,16 +98,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var appBar = AppBar(
+      title: Text('Expenses'),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _openAddNewTransaction(context),
+        ),
+      ],
+    );
+
+    var bodyHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        appBar.preferredSize.height;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Expenses'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _openAddNewTransaction(context),
-          ),
-        ],
-      ),
+      appBar: appBar,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => _openAddNewTransaction(context),
@@ -119,10 +123,16 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Center(
           child: Column(
             children: <Widget>[
-              Chart(_recentTransactions),
-              _userTransactions.isNotEmpty
-                  ? TransactionList(_userTransactions, _removeTx)
-                  : emptyTx()
+              Container(
+                height: bodyHeight * .3,
+                child: Chart(_recentTransactions),
+              ),
+              Container(
+                height: bodyHeight * .7,
+                child: _userTransactions.isNotEmpty
+                    ? TransactionList(_userTransactions, _removeTx)
+                    : emptyTx(),
+              )
             ],
           ),
         ),
