@@ -53,6 +53,8 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
   ];
 
+  bool _showChart = false;
+
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
       return tx.date.isAfter(
@@ -123,16 +125,31 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Center(
           child: Column(
             children: <Widget>[
-              Container(
-                height: bodyHeight * .3,
-                child: Chart(_recentTransactions),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('Show chart'),
+                  Switch(
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    },
+                  ),
+                ],
               ),
-              Container(
-                height: bodyHeight * .7,
-                child: _userTransactions.isNotEmpty
-                    ? TransactionList(_userTransactions, _removeTx)
-                    : emptyTx(),
-              )
+              _showChart
+                  ? Container(
+                      height: bodyHeight * .3,
+                      child: Chart(_recentTransactions),
+                    )
+                  : Container(
+                      height: bodyHeight * .7,
+                      child: _userTransactions.isNotEmpty
+                          ? TransactionList(_userTransactions, _removeTx)
+                          : emptyTx(),
+                    )
             ],
           ),
         ),
