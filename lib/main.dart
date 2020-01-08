@@ -100,6 +100,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     var appBar = AppBar(
       title: Text('Expenses'),
       actions: <Widget>[
@@ -114,6 +117,13 @@ class _MyHomePageState extends State<MyHomePage> {
         MediaQuery.of(context).padding.top -
         appBar.preferredSize.height;
 
+    Container txListWidget = Container(
+      height: bodyHeight * .7,
+      child: _userTransactions.isNotEmpty
+          ? TransactionList(_userTransactions, _removeTx)
+          : emptyTx(),
+    );
+
     return Scaffold(
       appBar: appBar,
       floatingActionButton: FloatingActionButton(
@@ -125,31 +135,25 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Center(
           child: Column(
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text('Show chart'),
-                  Switch(
-                    value: _showChart,
-                    onChanged: (val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    },
-                  ),
-                ],
-              ),
-              _showChart
-                  ? Container(
-                      height: bodyHeight * .3,
-                      child: Chart(_recentTransactions),
-                    )
-                  : Container(
-                      height: bodyHeight * .7,
-                      child: _userTransactions.isNotEmpty
-                          ? TransactionList(_userTransactions, _removeTx)
-                          : emptyTx(),
-                    )
+              if (isLandscape)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('Show chart'),
+                    Switch(
+                      value: _showChart,
+                      onChanged: (val) {
+                        setState(() {
+                          _showChart = val;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              if (!isLandscape) chart(bodyHeight * .3),
+              if (!isLandscape) txListWidget,
+              if (isLandscape)
+                _showChart ? chart(bodyHeight * .7) : txListWidget
             ],
           ),
         ),
@@ -157,9 +161,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Container emptyTx() {
-    return Container(
-      child: Column(
+  Widget emptyTx() {
+    return LayoutBuilder(builder: (context, constraints) {
+      return Column(
         children: <Widget>[
           Text(
             'No transactions',
@@ -170,12 +174,22 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(
             height: 30,
           ),
-          Image.asset(
-            'assets/images/no_txs.png',
-            fit: BoxFit.cover,
+          Container(
+            height: constraints.maxHeight * .6,
+            child: Image.asset(
+              'assets/images/no_txs.png',
+              fit: BoxFit.cover,
+            ),
           )
         ],
-      ),
+      );
+    });
+  }
+
+  Container chart(double height) {
+    return Container(
+      height: height,
+      child: Chart(_recentTransactions),
     );
   }
 }
