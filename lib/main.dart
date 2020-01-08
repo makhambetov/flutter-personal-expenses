@@ -100,8 +100,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final mediaQuery = MediaQuery.of(context);
+
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
 
     var appBar = AppBar(
       title: Text('Expenses'),
@@ -113,8 +114,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
 
-    var bodyHeight = MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top -
+    var bodyHeight = mediaQuery.size.height -
+        mediaQuery.padding.top -
         appBar.preferredSize.height;
 
     Container txListWidget = Container(
